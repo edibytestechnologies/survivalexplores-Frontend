@@ -106,8 +106,8 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  // short revalidate so branding/hero/banner edits appear quickly across the site
-  return get<SiteSettings>("/settings/", FALLBACK_SETTINGS, 5);
+  // always fetch fresh so branding/hero/banner edits appear immediately across the site
+  return get<SiteSettings>("/settings/", FALLBACK_SETTINGS, 0);
 }
 
 export { API_URL };
