@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LayoutDashboard } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { BookNowButton } from "@/components/booking/book-now";
+import { getToken } from "@/lib/admin-api";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -21,6 +22,11 @@ export function Navbar({ logoSrc }: { logoSrc?: string }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    setIsAdmin(!!getToken());
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -60,6 +66,16 @@ export function Navbar({ logoSrc }: { logoSrc?: string }) {
         </nav>
 
         <div className="flex items-center gap-3">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              aria-label="Go to dashboard"
+              title="Dashboard"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/20 text-gold ring-1 ring-gold/40 transition-colors hover:bg-gold hover:text-white"
+            >
+              <LayoutDashboard className="h-5 w-5" />
+            </Link>
+          )}
           <BookNowButton className="hidden btn-gold px-5 py-2.5 text-sm sm:inline-flex" label="Register Now" />
           <button
             aria-label="Toggle menu"

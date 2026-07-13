@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import Link from "next/link";
 import { Plus, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -70,6 +71,41 @@ export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement
 
 export function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return <select {...props} className={cn(inputCls, props.className)} />;
+}
+
+/** Pick from an existing list of options, or type a brand-new value to add it. */
+export function ComboBox({
+  value,
+  onChange,
+  options,
+  placeholder,
+  required,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+  placeholder?: string;
+  required?: boolean;
+}) {
+  const listId = useId();
+  return (
+    <>
+      <input
+        list={listId}
+        value={value}
+        required={required}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className={inputCls}
+        autoComplete="off"
+      />
+      <datalist id={listId}>
+        {options.map((o) => (
+          <option key={o} value={o} />
+        ))}
+      </datalist>
+    </>
+  );
 }
 
 export function Toggle({

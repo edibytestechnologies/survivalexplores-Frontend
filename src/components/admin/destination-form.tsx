@@ -2,11 +2,21 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { Loader2, Plus, Trash2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { adminApi } from "@/lib/admin-api";
-import { Card, Field, Input, Textarea, Select, Toggle, StringList } from "@/components/admin/ui";
+import { API_URL } from "@/lib/api";
+import { Card, Field, Input, Textarea, Select, Toggle, StringList, ComboBox } from "@/components/admin/ui";
 import { ImageUpload, VideoUpload, MediaUpload, type MediaItem } from "@/components/admin/uploader";
+
+async function fetchStrings(url: string): Promise<string[]> {
+  const res = await fetch(url);
+  if (!res.ok) return [];
+  const data = await res.json();
+  const arr = Array.isArray(data) ? data : data.results ?? [];
+  return arr.map((x: unknown) => (typeof x === "string" ? x : (x as { name: string }).name)).filter(Boolean);
+}
 
 interface Inclusion {
   text: string;
@@ -69,6 +79,15 @@ export function DestinationForm({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
+  const { data: countries = [] } = useQuery({
+    queryKey: ["dest-countries"],
+    queryFn: () => fetchStrings(`${API_URL}/destinations/countries/`),
+  });
+  const { data: categories = [] } = useQuery({
+    queryKey: ["dest-categories"],
+    queryFn: () => fetchStrings(`${API_URL}/categories/`),
+  });
+
   function set<K extends keyof DestinationFormValues>(key: K, value: DestinationFormValues[K]) {
     setV((p) => ({ ...p, [key]: value }));
   }
@@ -110,9 +129,13 @@ export function DestinationForm({
         <h2 className="font-serif text-lg font-semibold text-navy">Basic Info</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Title *"><Input required value={v.title} onChange={(e) => set("title", e.target.value)} /></Field>
-          <Field label="Country *"><Input required value={v.country} onChange={(e) => set("country", e.target.value)} /></Field>
+          <Field label="Country * (pick from list or type a new one)">
+            <ComboBox required value={v.country} onChange={(val) => set("country", val)} options={countries} placeholder="Select or add a country" />
+          </Field>
           <Field label="City"><Input value={v.city} onChange={(e) => set("city", e.target.value)} /></Field>
-          <Field label="Category"><Input value={v.category} onChange={(e) => set("category", e.target.value)} /></Field>
+          <Field label="Category (pick from list or type a new one)">
+            <ComboBox value={v.category} onChange={(val) => set("category", val)} options={categories} placeholder="Select or add a category" />
+          </Field>
         </div>
         <Field label="Short description (card)"><Input value={v.short_description} onChange={(e) => set("short_description", e.target.value)} /></Field>
         <Field label="Full description"><Textarea rows={4} value={v.description} onChange={(e) => set("description", e.target.value)} /></Field>
