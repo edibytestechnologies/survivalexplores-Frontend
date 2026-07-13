@@ -9,6 +9,7 @@ import { getSiteSettings } from "@/lib/api";
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Get in touch with Survival Explore. We'd love to help plan your next journey.",
+  alternates: { canonical: "/contact" },
 };
 
 export default async function ContactPage() {

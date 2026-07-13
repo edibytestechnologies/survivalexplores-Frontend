@@ -17,6 +17,7 @@ import { getServices, getSiteSettings } from "@/lib/api";
 export const metadata: Metadata = {
   title: "Our Services",
   description: "Complete travel solutions under one roof — planning, tours, bookings, visas and more.",
+  alternates: { canonical: "/services" },
 };
 
 const ICONS: Record<string, LucideIcon> = {

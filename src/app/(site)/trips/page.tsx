@@ -7,6 +7,7 @@ import { getSiteSettings } from "@/lib/api";
 export const metadata: Metadata = {
   title: "Trips & Destinations",
   description: "Browse all curated trips and destinations from Survival Explore.",
+  alternates: { canonical: "/trips" },
 };
 
 export default async function TripsPage({

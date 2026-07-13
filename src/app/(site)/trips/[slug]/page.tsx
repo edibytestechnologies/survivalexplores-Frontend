@@ -18,9 +18,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const d = await getDestination(slug);
   if (!d) return { title: "Trip not found" };
+  const title = d.seo_title || `${d.title}, ${d.country} Tour Package`;
+  const description = d.seo_description || d.short_description;
   return {
-    title: d.seo_title || `${d.title}, ${d.country}`,
-    description: d.seo_description || d.short_description,
+    title,
+    description,
+    alternates: { canonical: `/trips/${slug}` },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: `/trips/${slug}`,
+      images: [{ url: d.hero_image || d.card_image, width: 1200, height: 630, alt: d.title }],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [d.hero_image || d.card_image] },
   };
 }
 

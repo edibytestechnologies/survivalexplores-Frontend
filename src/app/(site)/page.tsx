@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
 import { WhyTravel } from "@/components/home/why-travel";
 import { CtaStats } from "@/components/home/cta-stats";
@@ -6,6 +7,10 @@ import { Newsletter } from "@/components/home/newsletter";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { TripsExplorer } from "@/components/trips/trips-explorer";
 import { getSiteSettings } from "@/lib/api";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const s = await getSiteSettings();

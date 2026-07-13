@@ -20,9 +20,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getBlogPost(slug);
   if (!post) return { title: "Post not found" };
+  const title = post.seo_title || post.title;
+  const description = post.seo_description || post.excerpt;
   return {
-    title: post.seo_title || post.title,
-    description: post.seo_description || post.excerpt,
+    title,
+    description,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: `/blog/${slug}`,
+      publishedTime: post.published_at || undefined,
+      images: post.featured_image ? [{ url: post.featured_image, width: 1200, height: 630, alt: post.title }] : undefined,
+    },
+    twitter: { card: "summary_large_image", title, description, images: post.featured_image ? [post.featured_image] : undefined },
   };
 }
 
