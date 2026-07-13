@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+}
+
+@layer base {
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-6 py-3
+      font-medium text-white shadow-sm transition-all duration-300
+      hover:bg-gold-dark hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0
+      focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-white/70
+      px-6 py-3 font-medium text-white transition-all duration-300
+      hover:bg-white hover:text-navy;
+  }
+
+  .btn-ghost-navy {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-navy/15
+      bg-white px-6 py-3 font-medium text-navy transition-all duration-300
+      hover:border-navy/40 hover:shadow-md;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-gold;
+  }
+
+  /* Standalone bordered input (contact form) */
+  .field {
+    @apply w-full rounded-lg border border-gray-200 bg-cream px-4 py-3 text-sm text-ink
+      placeholder:text-muted focus:border-gold focus:outline-none;
+  }
+
+  /* Transparent input that sits inside an icon wrapper (booking modal) */
+  .field-input {
+    @apply w-full bg-transparent py-2.5 text-sm text-ink placeholder:text-muted focus:outline-none;
+  }
+
+  .section-title {
+    @apply mt-2 text-3xl font-semibold text-navy sm:text-4xl;
+  }
+}
+
+/* Smooth scrolling and selection */
+html {
+  scroll-behavior: smooth;
+}
+::selection {
+  background: #d8a63a;
+  color: #fff;
+}
