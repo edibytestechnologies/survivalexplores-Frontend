@@ -59,8 +59,11 @@ export const metadata: Metadata = {
     images: [DEFAULT_OG_IMAGE],
   },
   icons: { icon: "/icon.svg", apple: "/icon.svg" },
-  // Add your verification token once you set up Google Search Console:
-  // verification: { google: "YOUR_GOOGLE_SITE_VERIFICATION" },
+  // Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in your env (Vercel) to the token from
+  // Google Search Console; it will be emitted automatically.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

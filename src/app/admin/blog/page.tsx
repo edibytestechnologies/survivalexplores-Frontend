@@ -19,12 +19,15 @@ interface BlogAdmin {
   content: string;
   status: string;
   is_featured: boolean;
+  seo_title: string;
+  seo_description: string;
   media: MediaItem[];
 }
 
 const EMPTY: Partial<BlogAdmin> = {
   title: "", category: "Travel Tips", author: "Survival Explore", featured_image: "",
-  excerpt: "", content: "", status: "published", is_featured: false, media: [],
+  excerpt: "", content: "", status: "published", is_featured: false,
+  seo_title: "", seo_description: "", media: [],
 };
 
 export default function AdminBlogPage() {
@@ -107,6 +110,18 @@ export default function AdminBlogPage() {
             <Field label="Images & videos in this post">
               <MediaUpload items={editing.media || []} onChange={(m) => setEditing({ ...editing, media: m })} />
             </Field>
+            <div className="space-y-3 rounded-xl bg-cream/60 p-4 ring-1 ring-gold/30">
+              <p className="flex items-center gap-2 text-sm font-semibold text-navy">
+                <span className="rounded bg-gold/15 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-gold">SEO</span>
+                Search Engine Optimization
+              </p>
+              <Field label={`SEO title  (${(editing.seo_title || "").length}/60)`}>
+                <Input value={editing.seo_title || ""} maxLength={70} onChange={(e) => setEditing({ ...editing, seo_title: e.target.value })} placeholder="Title shown in Google (leave blank to use the post title)" />
+              </Field>
+              <Field label={`SEO meta description  (${(editing.seo_description || "").length}/160)`}>
+                <Textarea rows={2} value={editing.seo_description || ""} maxLength={200} onChange={(e) => setEditing({ ...editing, seo_description: e.target.value })} placeholder="Description shown under the title in Google (leave blank to use the excerpt)" />
+              </Field>
+            </div>
             <div className="flex items-center justify-between">
               <Field label="Status">
                 <Select value={editing.status} onChange={(e) => setEditing({ ...editing, status: e.target.value })}>

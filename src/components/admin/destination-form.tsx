@@ -52,6 +52,8 @@ export interface DestinationFormValues {
   status: string;
   trip_status: string;
   is_featured: boolean;
+  seo_title: string;
+  seo_description: string;
   highlights: string[];
   gallery: MediaItem[];
   inclusions: Inclusion[];
@@ -64,6 +66,7 @@ export const EMPTY_DESTINATION: DestinationFormValues = {
   duration_days: 1, duration_nights: 0, rating: 4.5, reviews_count: 0, group_size: 5,
   tour_type: "Group Tour", best_time: "", activity_level: "easy_moderate", category: "Beach & Island",
   status: "published", trip_status: "upcoming", is_featured: false,
+  seo_title: "", seo_description: "",
   highlights: [], gallery: [], inclusions: [], itinerary: [],
 };
 
@@ -195,6 +198,29 @@ export function DestinationForm({
           </Field>
         </div>
         <Toggle checked={v.is_featured} onChange={(b) => set("is_featured", b)} label="Featured (show on home page)" />
+      </Card>
+
+      <Card className="space-y-4 ring-1 ring-gold/30">
+        <div>
+          <h2 className="flex items-center gap-2 font-serif text-lg font-semibold text-navy">
+            <span className="rounded bg-gold/15 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-gold">SEO</span>
+            Search Engine Optimization
+          </h2>
+          <p className="mt-1 text-sm text-muted">How this trip appears on Google & social media. Leave blank to auto-use the title & short description.</p>
+        </div>
+        <Field label={`SEO title  (${(v.seo_title || "").length}/60 — best under 60 characters)`}>
+          <Input value={v.seo_title} onChange={(e) => set("seo_title", e.target.value)} maxLength={70} placeholder={`e.g. ${v.title || "Zanzibar"} Tour Package | Survival Explore`} />
+        </Field>
+        <Field label={`SEO meta description  (${(v.seo_description || "").length}/160 — best 120–160 characters)`}>
+          <Textarea rows={3} value={v.seo_description} onChange={(e) => set("seo_description", e.target.value)} maxLength={200} placeholder="One or two sentences a searcher will see under the title in Google results." />
+        </Field>
+        {/* Google result preview */}
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
+          <p className="text-xs text-muted">Google preview</p>
+          <p className="mt-1 truncate text-[15px] text-[#1a0dab]">{v.seo_title || `${v.title || "Trip"}, ${v.country || "Country"} Tour Package`}</p>
+          <p className="text-xs text-[#006621]">survivalexplores.com › trips › {(v.title || "trip").toLowerCase().replace(/\s+/g, "-")}</p>
+          <p className="mt-0.5 line-clamp-2 text-[13px] text-[#4d5156]">{v.seo_description || v.short_description || "Add a short description…"}</p>
+        </div>
       </Card>
 
       <Card className="space-y-4">
