@@ -19,6 +19,7 @@ import {
   X,
   ExternalLink,
   CalendarCheck,
+  Send,
 } from "lucide-react";
 import { getToken, clearTokens, API_URL } from "@/lib/admin-api";
 import { cn } from "@/lib/utils";
@@ -45,6 +46,7 @@ const NAV = [
   { label: "Blog", href: "/admin/blog", icon: Newspaper },
   { label: "Testimonials", href: "/admin/testimonials", icon: Star },
   { label: "Messages", href: "/admin/messages", icon: Mail },
+  { label: "Email", href: "/admin/email", icon: Send },
   { label: "Subscribers", href: "/admin/subscribers", icon: Users },
   { label: "Site & About", href: "/admin/settings", icon: Settings },
 ];
