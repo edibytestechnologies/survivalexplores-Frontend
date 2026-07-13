@@ -22,6 +22,7 @@ import {
   Send,
   ClipboardList,
   Receipt,
+  Users2,
 } from "lucide-react";
 import { getToken, clearTokens, API_URL } from "@/lib/admin-api";
 import { cn } from "@/lib/utils";
@@ -44,6 +45,7 @@ const NAV = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Bookings", href: "/admin/bookings", icon: CalendarCheck },
   { label: "Registrations", href: "/admin/registrations", icon: ClipboardList },
+  { label: "Trip Roster", href: "/admin/roster", icon: Users2 },
   { label: "Billing", href: "/admin/billing", icon: Receipt },
   { label: "Destinations", href: "/admin/destinations", icon: MapPinned },
   { label: "Services", href: "/admin/services", icon: Wrench },
