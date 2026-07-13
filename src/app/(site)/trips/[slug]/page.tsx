@@ -105,7 +105,7 @@ export default async function TripDetailPage({
                 destinationId={d.id}
                 destinationTitle={`${d.title}, ${d.country}`}
                 className="btn-gold mt-6 w-full"
-                label="Book Now"
+                label="Register Now"
               />
               <BookNowButton
                 destinationId={d.id}

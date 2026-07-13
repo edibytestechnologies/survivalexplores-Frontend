@@ -17,7 +17,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export function BookNowButton({ destinationId, destinationTitle, className, label = "Book Now", children }: Props) {
+export function BookNowButton({ destinationId, destinationTitle, className, label = "Register Now", children }: Props) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -119,10 +119,10 @@ function BookingModal({
               </button>
               <div className="flex items-center gap-2">
                 <CalendarCheck className="h-5 w-5 text-gold" />
-                <h2 className="font-serif text-xl font-semibold">Book Your Trip</h2>
+                <h2 className="font-serif text-xl font-semibold">Register Now</h2>
               </div>
               <p className="mt-1 text-sm text-white/70">
-                {destinationTitle ? `Reserve your spot for ${destinationTitle}.` : "Tell us how to reach you and our team will do the rest."}
+                {destinationTitle ? `Register your spot for ${destinationTitle}.` : "Tell us how to reach you and our team will do the rest."}
               </p>
             </div>
 
@@ -131,7 +131,7 @@ function BookingModal({
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", damping: 12 }}>
                   <CheckCircle2 className="h-16 w-16 text-gold" />
                 </motion.div>
-                <h3 className="mt-4 font-serif text-2xl font-semibold text-navy">Request Received!</h3>
+                <h3 className="mt-4 font-serif text-2xl font-semibold text-navy">Registration Received!</h3>
                 <p className="mt-2 text-muted">{message}</p>
                 <button onClick={onClose} className="btn-gold mt-6">Done</button>
               </div>
@@ -153,7 +153,7 @@ function BookingModal({
                 </IconField>
 
                 <button type="submit" disabled={status === "loading"} className="btn-gold mt-2 w-full">
-                  {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Submit Booking Request"}
+                  {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : "Submit Registration"}
                 </button>
                 <p className="text-center text-xs text-muted">
                   By submitting, our staff will reach out to confirm availability &amp; payment.

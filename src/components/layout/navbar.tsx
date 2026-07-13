@@ -60,7 +60,7 @@ export function Navbar({ logoSrc }: { logoSrc?: string }) {
         </nav>
 
         <div className="flex items-center gap-3">
-          <BookNowButton className="hidden btn-gold px-5 py-2.5 text-sm sm:inline-flex" label="Book Now" />
+          <BookNowButton className="hidden btn-gold px-5 py-2.5 text-sm sm:inline-flex" label="Register Now" />
           <button
             aria-label="Toggle menu"
             className="text-white lg:hidden"
@@ -83,7 +83,7 @@ export function Navbar({ logoSrc }: { logoSrc?: string }) {
               {item.label}
             </Link>
           ))}
-          <BookNowButton className="btn-gold mt-4 w-full" label="Book Now" />
+          <BookNowButton className="btn-gold mt-4 w-full" label="Register Now" />
         </nav>
       )}
     </header>
