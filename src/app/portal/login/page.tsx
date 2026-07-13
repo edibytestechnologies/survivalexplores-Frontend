@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Palmtree, Mail, Lock, Loader2, Eye, EyeOff } from "lucide-react";
 import { customerLogin } from "@/lib/customer-api";
+import { ForgotPassword } from "@/components/auth/forgot-password";
 
 export default function PortalLoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [forgot, setForgot] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +37,11 @@ export default function PortalLoginPage() {
           </div>
           <p className="text-sm text-white/60">Customer Dashboard</p>
         </div>
-        <form onSubmit={submit} className="rounded-2xl bg-white p-8 shadow-widget">
+        <div className="rounded-2xl bg-white p-8 shadow-widget">
+        {forgot ? (
+          <ForgotPassword onBack={() => setForgot(false)} />
+        ) : (
+        <form onSubmit={submit}>
           <h1 className="font-serif text-2xl font-semibold text-navy">Welcome back</h1>
           <p className="mt-1 text-sm text-muted">Log in with the email &amp; password we sent you.</p>
           {error && <p className="mt-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>}
@@ -55,8 +61,11 @@ export default function PortalLoginPage() {
             </div>
           </label>
           <button type="submit" disabled={loading} className="btn-gold mt-6 w-full">{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign In"}</button>
-          <p className="mt-4 text-center text-xs text-muted">First time? Use the password from your registration email, then set a new one.</p>
+          <button type="button" onClick={() => setForgot(true)} className="mt-4 block w-full text-center text-sm text-gold hover:underline">Forgot password?</button>
+          <p className="mt-3 text-center text-xs text-muted">First time? Use the password from your registration email, then set a new one.</p>
         </form>
+        )}
+        </div>
       </div>
     </div>
   );

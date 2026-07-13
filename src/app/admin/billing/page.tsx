@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Trash2, Loader2, Link2, Copy, Check, CreditCard, Receipt } from "lucide-react";
+import { Plus, Trash2, Loader2, Link2, Copy, Check, CreditCard, Receipt, Users, MapPin } from "lucide-react";
 import { adminApi } from "@/lib/admin-api";
 import { AdminHeader, Card, Field, Input, Select, Badge, EmptyState, Modal } from "@/components/admin/ui";
 import { cn } from "@/lib/utils";
@@ -25,9 +25,11 @@ export default function AdminBillingPage() {
     <>
       <AdminHeader title="Billing & Payments" subtitle="Bill customers, set payment plans, and create shareable payment links." />
 
+      <BillByTrip onDone={() => { qc.invalidateQueries({ queryKey: ["admin-bills"] }); }} />
+
       <div className="mb-6 grid gap-6 lg:grid-cols-2">
         <Card>
-          <h2 className="mb-3 flex items-center gap-2 font-serif text-lg font-semibold text-navy"><Receipt className="h-5 w-5 text-gold" /> Bill a Customer</h2>
+          <h2 className="mb-3 flex items-center gap-2 font-serif text-lg font-semibold text-navy"><Receipt className="h-5 w-5 text-gold" /> Bill an Individual</h2>
           <p className="mb-4 text-sm text-muted">Select a registered customer and raise a bill. They'll be notified by email.</p>
           {customers.length === 0 ? <EmptyState text="No registered customers yet." /> : (
             <div className="max-h-72 space-y-1.5 overflow-y-auto">
@@ -123,6 +125,96 @@ function BillModal({ customer, onClose, onDone }: { customer: Customer; onClose:
         <button type="submit" disabled={saving} className="btn-gold w-full">{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <><CreditCard className="h-4 w-4" /> Create Bill & Notify</>}</button>
       </form>
     </Modal>
+  );
+}
+
+interface Person { registration: number; user: number | null; name: string; email: string; has_account: boolean }
+interface TripGroup { trip: string; registration_id: number | null; people: Person[] }
+
+function BillByTrip({ onDone }: { onDone: () => void }) {
+  const [trip, setTrip] = useState("");
+  const [excluded, setExcluded] = useState<Set<number>>(new Set());
+  const [title, setTitle] = useState("");
+  const [schedule, setSchedule] = useState("one_time");
+  const [amount, setAmount] = useState("");
+  const [installments, setInstallments] = useState([{ label: "Initial payment", amount: "" }, { label: "Final payment", amount: "" }]);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState("");
+
+  const { data: groups = [] } = useQuery<TripGroup[]>({ queryKey: ["trip-registrants"], queryFn: async () => (await adminApi.get("/admin/trip-registrants/")).data });
+  const group = groups.find((g) => g.trip === trip);
+  const people = group?.people ?? [];
+  const selectable = people.filter((p) => p.has_account);
+  const selected = selectable.filter((p) => !excluded.has(p.user!));
+
+  function toggle(uid: number) {
+    const n = new Set(excluded);
+    n.has(uid) ? n.delete(uid) : n.add(uid);
+    setExcluded(n);
+  }
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true); setMsg("");
+    try {
+      const payload: Record<string, unknown> = { users: selected.map((p) => p.user), title: title || trip, trip_title: title || trip, schedule };
+      if (schedule === "one_time") payload.total_amount = amount;
+      else payload.installments = installments.filter((i) => Number(i.amount) > 0);
+      const { data } = await adminApi.post("/admin/bills/bulk/", payload);
+      setMsg(data.message); onDone();
+      setTimeout(() => setMsg(""), 4000);
+    } catch (err: unknown) {
+      setMsg((err as { response?: { data?: { detail?: string } } })?.response?.data?.detail || "Could not bill.");
+    } finally { setSaving(false); }
+  }
+
+  return (
+    <Card className="mb-6 ring-1 ring-gold/30">
+      <h2 className="mb-1 flex items-center gap-2 font-serif text-lg font-semibold text-navy"><Users className="h-5 w-5 text-gold" /> Bill by Trip</h2>
+      <p className="mb-4 text-sm text-muted">Bill everyone who registered for a trip at once. Untick anyone you want to exclude.</p>
+      {msg && <p className="mb-3 rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">{msg}</p>}
+      <form onSubmit={submit} className="grid gap-5 lg:grid-cols-2">
+        <div>
+          <Field label="Choose a trip">
+            <Select value={trip} onChange={(e) => { setTrip(e.target.value); setExcluded(new Set()); }}>
+              <option value="">Select a trip…</option>
+              {groups.map((g) => <option key={g.trip} value={g.trip}>{g.trip} ({g.people.length})</option>)}
+            </Select>
+          </Field>
+          {group && (
+            <div className="mt-3 max-h-56 space-y-1 overflow-y-auto rounded-lg border border-gray-100 p-2">
+              {people.map((p) => (
+                <label key={p.registration} className={cn("flex items-center gap-2 rounded px-2 py-1.5 text-sm", p.has_account ? "" : "opacity-50")}>
+                  <input type="checkbox" disabled={!p.has_account} checked={p.has_account && !excluded.has(p.user!)} onChange={() => p.user && toggle(p.user)} className="accent-gold" />
+                  <span className="flex-1 truncate"><span className="font-medium text-navy">{p.name}</span> <span className="text-muted">· {p.email}</span></span>
+                  {!p.has_account && <span className="text-[10px] text-red-400">no account</span>}
+                </label>
+              ))}
+              <p className="px-2 pt-1 text-xs text-muted">{selected.length} of {selectable.length} will be billed</p>
+            </div>
+          )}
+        </div>
+        <div className="space-y-3">
+          <Field label="What is this for?"><Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={trip || "Trip payment"} /></Field>
+          <Field label="Payment plan"><Select value={schedule} onChange={(e) => setSchedule(e.target.value)}><option value="one_time">One-time payment</option><option value="installment">Installments</option></Select></Field>
+          {schedule === "one_time" ? (
+            <Field label="Amount per person (GHS)"><Input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="1200" /></Field>
+          ) : (
+            <div className="space-y-2">
+              {installments.map((inst, i) => (
+                <div key={i} className="flex gap-2">
+                  <Input value={inst.label} onChange={(e) => { const n = [...installments]; n[i].label = e.target.value; setInstallments(n); }} placeholder="Label" />
+                  <Input type="number" step="0.01" value={inst.amount} onChange={(e) => { const n = [...installments]; n[i].amount = e.target.value; setInstallments(n); }} placeholder="Amount" className="w-28" />
+                  {installments.length > 1 && <button type="button" onClick={() => setInstallments(installments.filter((_, j) => j !== i))} className="rounded-lg border border-gray-200 px-2 text-muted hover:text-red-500"><Trash2 className="h-4 w-4" /></button>}
+                </div>
+              ))}
+              <button type="button" onClick={() => setInstallments([...installments, { label: `Installment ${installments.length + 1}`, amount: "" }])} className="inline-flex items-center gap-1.5 text-sm font-medium text-gold hover:underline"><Plus className="h-4 w-4" /> Add installment</button>
+            </div>
+          )}
+          <button type="submit" disabled={saving || selected.length === 0} className="btn-gold w-full disabled:opacity-50">{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <><MapPin className="h-4 w-4" /> Bill {selected.length} customer(s)</>}</button>
+        </div>
+      </form>
+    </Card>
   );
 }
 
