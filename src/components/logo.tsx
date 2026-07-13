@@ -15,7 +15,11 @@ export function Logo({
     return (
       <Link href="/" className={cn("inline-flex items-center", className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt="Survival Explore" className="h-11 w-auto object-contain" />
+        <img
+          src={src}
+          alt="Survival Explore"
+          className="h-14 w-auto max-w-[190px] object-contain sm:h-12 lg:h-11"
+        />
       </Link>
     );
   }
