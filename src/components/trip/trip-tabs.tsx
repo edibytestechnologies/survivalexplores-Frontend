@@ -7,13 +7,27 @@ import { StarRating } from "@/components/ui/star-rating";
 import type { DestinationDetail } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const TABS = ["Overview", "Itinerary", "Inclusions", "Exclusions", "Gallery", "Reviews"] as const;
-type Tab = (typeof TABS)[number];
+type Tab = "Overview" | "Itinerary" | "Inclusions" | "Exclusions" | "Gallery" | "Reviews";
 
 export function TripTabs({ d }: { d: DestinationDetail }) {
-  const [tab, setTab] = useState<Tab>("Overview");
   const inclusions = d.inclusions.filter((i) => i.included);
   const exclusions = d.inclusions.filter((i) => !i.included);
+
+  // Only show a tab if it actually has content
+  const TABS = (
+    [
+      ["Overview", true],
+      ["Itinerary", d.itinerary.length > 0],
+      ["Inclusions", inclusions.length > 0],
+      ["Exclusions", exclusions.length > 0],
+      ["Gallery", d.gallery.length > 0],
+      ["Reviews", d.reviews_count > 0],
+    ] as [Tab, boolean][]
+  )
+    .filter(([, show]) => show)
+    .map(([t]) => t);
+
+  const [tab, setTab] = useState<Tab>("Overview");
 
   return (
     <div>

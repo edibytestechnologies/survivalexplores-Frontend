@@ -73,7 +73,7 @@ function BookingModal({
     setStatus("loading");
     setError("");
     try {
-      const res = await fetch(`${API_URL}/bookings/`, {
+      const res = await fetch(`${API_URL}/registrations/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, destination: destinationId ?? null }),
@@ -83,7 +83,7 @@ function BookingModal({
         throw new Error(d.detail || "Something went wrong. Please try again.");
       }
       const d = await res.json();
-      setMessage(d.message || "Thank you! Our team will contact you shortly.");
+      setMessage(d.message || "Registration successful! Check your email for your login details.");
       setStatus("done");
       setForm({ full_name: "", email: "", phone: "", whatsapp: "" });
     } catch (err) {
@@ -131,9 +131,10 @@ function BookingModal({
                 <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", damping: 12 }}>
                   <CheckCircle2 className="h-16 w-16 text-gold" />
                 </motion.div>
-                <h3 className="mt-4 font-serif text-2xl font-semibold text-navy">Registration Received!</h3>
-                <p className="mt-2 text-muted">{message}</p>
-                <button onClick={onClose} className="btn-gold mt-6">Done</button>
+                <h3 className="mt-4 font-serif text-2xl font-semibold text-navy">Registration Successful!</h3>
+                <p className="mt-2 text-sm text-muted">{message}</p>
+                <a href="/portal/login" className="btn-gold mt-6">Go to my dashboard</a>
+                <button onClick={onClose} className="mt-3 text-sm text-muted hover:text-navy">Close</button>
               </div>
             ) : (
               <form onSubmit={submit} className="space-y-3 p-6">
