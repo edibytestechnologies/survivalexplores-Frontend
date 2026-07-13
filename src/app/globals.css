@@ -60,6 +60,18 @@
   }
 }
 
+/* Prevent iOS Safari from auto-zooming into form fields on focus.
+   Any input font-size below 16px triggers the zoom, so force >=16px on small
+   screens. The keyboard still opens and typing works normally — only the zoom
+   is suppressed. */
+@media (max-width: 767px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 /* Smooth scrolling and selection */
 html {
   scroll-behavior: smooth;
