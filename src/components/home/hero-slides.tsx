@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Volume2, VolumeX } from "lucide-react";
 
 export interface HeroSlide {
   kind: "image" | "video";
@@ -29,8 +30,10 @@ export function HeroSlides({
     slides && slides.length > 0 ? slides : [{ kind: "image", url: fallbackImage }];
 
   const [index, setIndex] = useState(0);
+  const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hasVideo = list.some((s) => s.kind === "video");
 
   const current = list[index % list.length];
   const next = () => setIndex((i) => (i + 1) % list.length);
@@ -47,11 +50,11 @@ export function HeroSlides({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, current.kind, list.length]);
 
-  // Ensure the current video is muted and plays (reliable autoplay).
+  // Ensure the current video plays (autoplay starts muted per browser rules).
   useEffect(() => {
     if (current.kind === "video" && videoRef.current) {
       const v = videoRef.current;
-      v.muted = true;
+      v.muted = muted;
       v.currentTime = 0;
       v.play().catch(() => {
         // if a video can't play, don't get stuck — move on
@@ -60,6 +63,33 @@ export function HeroSlides({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
+
+  // First tap/click anywhere → play video WITH sound.
+  useEffect(() => {
+    if (!hasVideo) return;
+    const enableSound = () => {
+      setMuted(false);
+      const v = videoRef.current;
+      if (v) {
+        v.muted = false;
+        v.play().catch(() => {});
+      }
+      window.removeEventListener("pointerdown", enableSound);
+    };
+    window.addEventListener("pointerdown", enableSound, { once: true });
+    return () => window.removeEventListener("pointerdown", enableSound);
+  }, [hasVideo]);
+
+  function toggleSound(e: React.MouseEvent) {
+    e.stopPropagation();
+    const nextMuted = !muted;
+    setMuted(nextMuted);
+    const v = videoRef.current;
+    if (v) {
+      v.muted = nextMuted;
+      if (!nextMuted) v.play().catch(() => {});
+    }
+  }
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-navy">
@@ -102,6 +132,19 @@ export function HeroSlides({
           )}
         </motion.div>
       </AnimatePresence>
+
+      {/* Sound toggle (only when the current slide is a video) */}
+      {current.kind === "video" && (
+        <button
+          type="button"
+          onClick={toggleSound}
+          aria-label={muted ? "Unmute video" : "Mute video"}
+          className="absolute bottom-6 right-6 z-20 flex items-center gap-2 rounded-full bg-black/50 px-3.5 py-2 text-xs font-medium text-white backdrop-blur transition-colors hover:bg-black/70"
+        >
+          {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4 text-gold" />}
+          {muted ? "Tap for sound" : "Sound on"}
+        </button>
+      )}
 
       {/* Slide progress dots */}
       {list.length > 1 && (

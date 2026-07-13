@@ -21,7 +21,12 @@ import { cn } from "@/lib/utils";
 type Tab = "compose" | "inbox" | "sent";
 
 interface Subscriber { id: number; email: string }
-interface InboxMsg { uid: string; from: string; subject: string; date: string; unread: boolean }
+interface InboxMsg { uid: string; account: string; from: string; subject: string; date: string; unread: boolean }
+
+function accountLabel(a?: string) {
+  if (!a) return "";
+  return a.split("@")[0]; // e.g. "support", "info"
+}
 interface SentItem { id: number; subject: string; recipient_count: number; sent_count: number; status: string; created_at: string }
 
 function fmt(d?: string) {
@@ -161,19 +166,32 @@ function Compose() {
 
 /* -------------------- Inbox -------------------- */
 function InboxView() {
-  const [openUid, setOpenUid] = useState<string | null>(null);
+  const [open, setOpen] = useState<{ uid: string; account: string } | null>(null);
+  const [filter, setFilter] = useState<string>("");
   const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
     queryKey: ["admin-inbox"],
-    queryFn: async () => (await adminApi.get("/admin/email/inbox/?limit=30")).data as { messages: InboxMsg[] },
+    queryFn: async () => (await adminApi.get("/admin/email/inbox/?limit=40")).data as { messages: InboxMsg[] },
     retry: false,
   });
 
-  const msgs = data?.messages ?? [];
+  const allMsgs = data?.messages ?? [];
+  const accounts = Array.from(new Set(allMsgs.map((m) => m.account)));
+  const msgs = filter ? allMsgs.filter((m) => m.account === filter) : allMsgs;
 
   return (
     <Card className="p-0">
-      <div className="flex items-center justify-between border-b border-gray-100 px-5 py-3">
-        <span className="text-sm font-medium text-navy">Inbox — support@survivalexplores.com</span>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-5 py-3">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 text-sm font-medium text-navy">Inbox</span>
+          <button onClick={() => setFilter("")} className={cn("rounded-full px-3 py-1 text-xs font-medium", !filter ? "bg-navy text-white" : "bg-cream text-muted hover:text-navy")}>
+            All
+          </button>
+          {accounts.map((a) => (
+            <button key={a} onClick={() => setFilter(a)} className={cn("rounded-full px-3 py-1 text-xs font-medium", filter === a ? "bg-navy text-white" : "bg-cream text-muted hover:text-navy")}>
+              {accountLabel(a)}
+            </button>
+          ))}
+        </div>
         <button onClick={() => refetch()} className="inline-flex items-center gap-1.5 text-sm text-gold hover:underline">
           <RefreshCw className={cn("h-4 w-4", isFetching && "animate-spin")} /> Refresh
         </button>
@@ -190,27 +208,28 @@ function InboxView() {
       ) : (
         <ul className="divide-y divide-gray-100">
           {msgs.map((m) => (
-            <li key={m.uid}>
-              <button onClick={() => setOpenUid(m.uid)} className="flex w-full items-center gap-3 px-5 py-3 text-left hover:bg-cream/60">
+            <li key={`${m.account}-${m.uid}`}>
+              <button onClick={() => setOpen({ uid: m.uid, account: m.account })} className="flex w-full items-center gap-3 px-5 py-3 text-left hover:bg-cream/60">
                 <span className={cn("h-2 w-2 shrink-0 rounded-full", m.unread ? "bg-gold" : "bg-transparent")} />
-                <span className="w-48 shrink-0 truncate text-sm font-medium text-navy">{m.from}</span>
+                <Badge color={m.account.startsWith("info") ? "navy" : "gold"}>{accountLabel(m.account)}</Badge>
+                <span className="hidden w-40 shrink-0 truncate text-sm font-medium text-navy sm:block">{m.from}</span>
                 <span className={cn("min-w-0 flex-1 truncate text-sm", m.unread ? "font-semibold text-navy" : "text-muted")}>{m.subject}</span>
-                <span className="shrink-0 text-xs text-muted">{fmt(m.date)}</span>
+                <span className="hidden shrink-0 text-xs text-muted sm:block">{fmt(m.date)}</span>
               </button>
             </li>
           ))}
         </ul>
       )}
 
-      {openUid && <MessageModal uid={openUid} onClose={() => setOpenUid(null)} />}
+      {open && <MessageModal uid={open.uid} account={open.account} onClose={() => setOpen(null)} />}
     </Card>
   );
 }
 
-function MessageModal({ uid, onClose }: { uid: string; onClose: () => void }) {
+function MessageModal({ uid, account, onClose }: { uid: string; account: string; onClose: () => void }) {
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-inbox-msg", uid],
-    queryFn: async () => (await adminApi.get(`/admin/email/inbox/${uid}/`)).data as {
+    queryKey: ["admin-inbox-msg", account, uid],
+    queryFn: async () => (await adminApi.get(`/admin/email/inbox/${uid}/?account=${encodeURIComponent(account)}`)).data as {
       from: string; to: string; subject: string; date: string; text: string; html: string;
     },
     retry: false,

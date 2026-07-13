@@ -155,25 +155,25 @@ function SearchWidget() {
   return (
     <form
       action="/trips"
-      className="grid grid-cols-1 gap-4 rounded-2xl bg-white p-5 shadow-widget sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto] lg:items-end lg:gap-3"
+      className="group grid grid-cols-1 gap-4 rounded-2xl border border-white/30 bg-white/10 p-5 shadow-widget backdrop-blur-md transition-all duration-300 hover:bg-white/95 focus-within:bg-white sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto] lg:items-end lg:gap-3"
     >
       <Field icon={<MapPin className="h-4 w-4 text-gold" />} label="Where to?">
         <input
           name="search"
           placeholder="Search destinations"
-          className="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
+          className="w-full bg-transparent text-sm text-white placeholder:text-white/70 focus:outline-none group-hover:text-ink group-hover:placeholder:text-muted group-focus-within:text-ink group-focus-within:placeholder:text-muted"
         />
       </Field>
       <Field icon={<Calendar className="h-4 w-4 text-gold" />} label="Check In">
-        <input type="date" className="w-full bg-transparent text-sm text-muted focus:outline-none" />
+        <input type="date" className="w-full bg-transparent text-sm text-white/80 focus:outline-none group-hover:text-muted group-focus-within:text-muted" />
       </Field>
       <Field icon={<Calendar className="h-4 w-4 text-gold" />} label="Check Out">
-        <input type="date" className="w-full bg-transparent text-sm text-muted focus:outline-none" />
+        <input type="date" className="w-full bg-transparent text-sm text-white/80 focus:outline-none group-hover:text-muted group-focus-within:text-muted" />
       </Field>
       <Field icon={<Users className="h-4 w-4 text-gold" />} label="Travelers">
         <input
           placeholder="Add guests"
-          className="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
+          className="w-full bg-transparent text-sm text-white placeholder:text-white/70 focus:outline-none group-hover:text-ink group-hover:placeholder:text-muted group-focus-within:text-ink group-focus-within:placeholder:text-muted"
         />
       </Field>
       <button type="submit" className="btn-gold h-[52px] w-full lg:w-auto">
@@ -194,10 +194,12 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border-b border-gray-100 pb-2 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4 lg:last:border-r-0">
+    <div className="border-b border-white/20 pb-2 transition-colors group-hover:border-gray-100 group-focus-within:border-gray-100 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4 lg:last:border-r-0">
       <div className="mb-1 flex items-center gap-2">
         {icon}
-        <span className="text-xs font-semibold text-navy">{label}</span>
+        <span className="text-xs font-semibold text-white transition-colors group-hover:text-navy group-focus-within:text-navy">
+          {label}
+        </span>
       </div>
       {children}
     </div>
