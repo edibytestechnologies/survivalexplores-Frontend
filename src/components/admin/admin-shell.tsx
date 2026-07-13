@@ -20,6 +20,7 @@ import {
   ExternalLink,
   CalendarCheck,
   Send,
+  ClipboardList,
 } from "lucide-react";
 import { getToken, clearTokens, API_URL } from "@/lib/admin-api";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,7 @@ function useLogo() {
 const NAV = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Bookings", href: "/admin/bookings", icon: CalendarCheck },
+  { label: "Registrations", href: "/admin/registrations", icon: ClipboardList },
   { label: "Destinations", href: "/admin/destinations", icon: MapPinned },
   { label: "Services", href: "/admin/services", icon: Wrench },
   { label: "Blog", href: "/admin/blog", icon: Newspaper },

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, User, Mail, Phone, Lock, MessageCircle, Loader2, CheckCircle2, CalendarCheck, Eye, EyeOff } from "lucide-react";
+import { X, User, Mail, Phone, MessageCircle, Loader2, CheckCircle2, CalendarCheck } from "lucide-react";
 import { API_URL } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -49,8 +49,7 @@ function BookingModal({
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ full_name: "", email: "", phone: "", password: "", whatsapp: "" });
+  const [form, setForm] = useState({ full_name: "", email: "", phone: "", whatsapp: "" });
 
   useEffect(() => setMounted(true), []);
   useEffect(() => {
@@ -86,7 +85,7 @@ function BookingModal({
       const d = await res.json();
       setMessage(d.message || "Thank you! Our team will contact you shortly.");
       setStatus("done");
-      setForm({ full_name: "", email: "", phone: "", password: "", whatsapp: "" });
+      setForm({ full_name: "", email: "", phone: "", whatsapp: "" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Submission failed.");
       setStatus("error");
@@ -151,18 +150,6 @@ function BookingModal({
                 </IconField>
                 <IconField icon={<MessageCircle className="h-4 w-4 text-gold" />}>
                   <input type="tel" value={form.whatsapp} onChange={set("whatsapp")} placeholder="WhatsApp Number" className="field-input" />
-                </IconField>
-                <IconField icon={<Lock className="h-4 w-4 text-gold" />}>
-                  <input required type={showPassword ? "text" : "password"} value={form.password} onChange={set("password")} placeholder="Create a Password" className="field-input" />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((v) => !v)}
-                    className="text-muted hover:text-navy"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    tabIndex={-1}
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
                 </IconField>
 
                 <button type="submit" disabled={status === "loading"} className="btn-gold mt-2 w-full">
