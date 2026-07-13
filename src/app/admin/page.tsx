@@ -10,8 +10,8 @@ import {
   Mail,
   Users,
   DollarSign,
-  Wrench,
   CalendarCheck,
+  Wallet,
 } from "lucide-react";
 import { adminApi } from "@/lib/admin-api";
 import { AdminHeader, Card, Badge } from "@/components/admin/ui";
@@ -33,12 +33,12 @@ export default function AdminDashboard() {
 
   const t = data?.totals ?? {};
   const cards = [
+    { label: "Revenue collected", value: `₵${(t.revenue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: DollarSign, color: "text-emerald-600" },
+    { label: "Outstanding", value: `₵${(t.outstanding || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: Wallet, color: "text-gold" },
     { label: "Bookings", value: t.bookings, icon: CalendarCheck, color: "text-gold" },
     { label: "Destinations", value: t.destinations, icon: MapPinned, color: "text-gold" },
     { label: "Countries", value: t.countries, icon: Globe2, color: "text-emerald-500" },
-    { label: "Revenue (Cedis)", value: t.revenue ? Math.round(t.revenue).toLocaleString() : 0, icon: DollarSign, color: "text-gold" },
     { label: "Blog Posts", value: t.blog_posts, icon: Newspaper, color: "text-blue-500" },
-    { label: "Services", value: t.services, icon: Wrench, color: "text-navy" },
     { label: "Testimonials", value: t.testimonials, icon: Star, color: "text-gold" },
     { label: "Messages", value: t.messages, icon: Mail, color: "text-rose-500" },
   ];
