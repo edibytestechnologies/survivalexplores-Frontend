@@ -122,7 +122,7 @@ export function HeroSlides({
             >
               <Image
                 src={current.url}
-                alt="Survival Explore hero"
+                alt="TourNature-Bio hero"
                 fill
                 priority={index === 0}
                 sizes="100vw"

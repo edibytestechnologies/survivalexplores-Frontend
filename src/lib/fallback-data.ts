@@ -113,7 +113,7 @@ const detailBase = (
   best_time: "June to October",
   activity_level: "easy_moderate",
   map_embed_url: `https://www.google.com/maps?q=${card.title},${card.country}&output=embed`,
-  seo_title: `${card.title}, ${card.country} Tour | Survival Explore`,
+  seo_title: `${card.title}, ${card.country} Tour | TourNature-Bio`,
   seo_description: card.short_description,
   hero_video: null,
   gallery: [card.card_image, card.hero_image].map((image, i) => ({
@@ -196,7 +196,7 @@ export const FALLBACK_SERVICES: Service[] = [
 }));
 
 export const FALLBACK_TESTIMONIALS: Testimonial[] = [
-  ["Ama Mensah", "Ghana", 5, "The Zanzibar trip was flawless from start to finish. Survival Explore handled every detail — we just enjoyed the memories!", "photo-1544005313-94ddf0286df2"],
+  ["Ama Mensah", "Ghana", 5, "The Zanzibar trip was flawless from start to finish. TourNature-Bio handled every detail — we just enjoyed the memories!", "photo-1544005313-94ddf0286df2"],
   ["David Osei", "Ghana", 5, "Best travel agency I've used. The Dubai desert safari was the highlight of our year.", "photo-1507003211169-0a1dd7228f2d"],
   ["Grace Boateng", "Ghana", 4, "Professional, warm and reliable. Bali exceeded all expectations. Highly recommended.", "photo-1438761681033-6461ffad8d80"],
   ["Kwame Adjei", "Ghana", 5, "The Maldives overwater villa was a dream. Seamless booking and incredible support throughout.", "photo-1500648767791-00dcc994a43e"],
@@ -220,7 +220,7 @@ export const FALLBACK_BLOG: BlogPost[] = [
   title: title as string,
   slug: (title as string).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
   category: category as string,
-  author: "Survival Explore",
+  author: "TourNature-Bio",
   featured_image: img(pid as string),
   excerpt: excerpt as string,
   content: excerpt as string,
@@ -228,13 +228,13 @@ export const FALLBACK_BLOG: BlogPost[] = [
 }));
 
 export const FALLBACK_SETTINGS: SiteSettings = {
-  company_name: "Survival Explore",
+  company_name: "TourNature-Bio",
   tagline: "Explore More · Live More",
   logo: "",
   favicon: "",
   hero_image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2000&q=80",
   hero_media: [],
-  hero_title_line1: "Explore More.",
+  hero_title_line1: "TourNature-Bio",
   hero_title_line2: "Live More.",
   hero_subtitle: "Unforgettable journeys, Authentic experiences. Memories that last forever.",
   hero_cta_primary_label: "Explore Trips",
@@ -247,7 +247,7 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   contact_banner: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2000&q=80",
   blog_banner: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80",
   phone: "+233 55 123 4567",
-  email: "info@survivalexplore.com",
+  email: "info@tournature-bio.com",
   address: "Accra, Ghana",
   business_hours: "Mon–Fri: 9AM–6PM · Sat: 10AM–2PM",
   map_embed_url: "https://www.google.com/maps?q=Accra,Ghana&output=embed",
@@ -263,6 +263,6 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   about_eyebrow: "Our Story",
   about_title: "Travel is More Than a Destination, It's a Way of Life.",
   about_body:
-    "At Survival Explore, we believe that travel opens minds, creates connections, and builds memories that last a lifetime. We are a travel and tour company committed to providing exceptional travel experiences and reliable travel services tailored to your needs.",
+    "At TourNature-Bio, we believe that travel opens minds, creates connections, and builds memories that last a lifetime. We are a travel and tour company committed to providing exceptional travel experiences and reliable travel services tailored to your needs.",
   about_image: img("photo-1505881502353-a1986add3762"),
 };

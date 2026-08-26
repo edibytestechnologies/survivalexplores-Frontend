@@ -25,7 +25,7 @@ interface BlogAdmin {
 }
 
 const EMPTY: Partial<BlogAdmin> = {
-  title: "", category: "Travel Tips", author: "Survival Explore", featured_image: "",
+  title: "", category: "Travel Tips", author: "TourNature-Bio", featured_image: "",
   excerpt: "", content: "", status: "published", is_featured: false,
   seo_title: "", seo_description: "", media: [],
 };

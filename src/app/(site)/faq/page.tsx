@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Frequently asked questions about booking, payments and travel with Survival Explore.",
+  description: "Frequently asked questions about booking, payments and travel with TourNature-Bio.",
   alternates: { canonical: "/faq" },
 };
 

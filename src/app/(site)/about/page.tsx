@@ -10,7 +10,7 @@ import { getSiteSettings } from "@/lib/api";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Survival Explore is a travel and tour company committed to exceptional experiences and reliable service.",
+    "TourNature-Bio is a travel and tour company committed to exceptional experiences and reliable service.",
   alternates: { canonical: "/about" },
 };
 

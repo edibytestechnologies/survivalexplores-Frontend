@@ -52,7 +52,7 @@ export default function PayLinkPage({ params }: { params: Promise<{ token: strin
       <div className="w-full max-w-md">
         <div className="mb-6 flex items-center justify-center gap-2">
           <Palmtree className="h-7 w-7 text-gold" />
-          <span className="font-serif text-xl font-bold text-white">Survival Explore</span>
+          <span className="font-serif text-xl font-bold text-white">TourNature-Bio</span>
         </div>
         <div className="rounded-2xl bg-white p-8 shadow-widget">
           {isLoading ? (

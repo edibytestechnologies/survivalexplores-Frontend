@@ -17,7 +17,7 @@ export function Logo({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
-          alt="Survival Explore"
+          alt="TourNature-Bio"
           className="h-14 w-auto max-w-[190px] object-contain sm:h-12 lg:h-11"
         />
       </Link>
@@ -34,7 +34,7 @@ export function Logo({
             light ? "text-white" : "text-navy"
           )}
         >
-          SURVIVAL
+          TOURNATURE<span className="text-gold">-BIO</span>
         </span>
       </span>
       <span

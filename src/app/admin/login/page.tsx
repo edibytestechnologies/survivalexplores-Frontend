@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
         <div className="mb-8 text-center">
           <div className="mx-auto mb-3 flex items-center justify-center gap-2">
             <Palmtree className="h-8 w-8 text-gold" />
-            <span className="font-serif text-2xl font-bold text-white">Survival Explore</span>
+            <span className="font-serif text-2xl font-bold text-white">TourNature-Bio</span>
           </div>
           <p className="text-sm text-white/60">Admin Dashboard</p>
         </div>
@@ -68,7 +68,7 @@ export default function AdminLoginPage() {
                 required
                 autoFocus
                 className="w-full bg-transparent py-2.5 text-sm text-ink focus:outline-none"
-                placeholder="admin@survivalexplores.com"
+                placeholder="admin@tournature-bio.com"
               />
             </div>
           </label>
