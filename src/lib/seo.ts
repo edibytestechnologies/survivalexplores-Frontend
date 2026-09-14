@@ -1,14 +1,14 @@
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://tournature-bio.com"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://survivalexplores.com"
 ).replace(/\/$/, "");
 
-export const SITE_NAME = "TourNature-Bio";
+export const SITE_NAME = "Survival Explore";
 export const SITE_TAGLINE = "Explore More. Live More.";
 export const SITE_DESCRIPTION =
-  "TourNature-Bio is a premium travel and tour company offering unforgettable journeys, guided tours, flight & hotel bookings, visa assistance and authentic experiences across Africa and the world. Explore Zanzibar, Dubai, Bali, Mauritius, Maldives and more.";
+  "Survival Explore is a premium travel and tour company offering unforgettable journeys, guided tours, flight & hotel bookings, visa assistance and authentic experiences across Africa and the world. Explore Zanzibar, Dubai, Bali, Mauritius, Maldives and more.";
 
 export const SITE_KEYWORDS = [
-  "TourNature-Bio",
+  "Survival Explore",
   "travel agency Ghana",
   "tour company",
   "guided tours",

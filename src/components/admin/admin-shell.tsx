@@ -105,11 +105,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <div className="flex h-16 items-center gap-2 border-b border-white/10 px-6">
           {logo ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={logo} alt="TourNature-Bio" className="h-9 w-auto object-contain" />
+            <img src={logo} alt="Survival Explore" className="h-9 w-auto object-contain" />
           ) : (
             <>
               <Palmtree className="h-6 w-6 text-gold" />
-              <span className="font-serif text-lg font-bold">TourNature-Bio</span>
+              <span className="font-serif text-lg font-bold">Survival Explore</span>
             </>
           )}
         </div>

@@ -11,7 +11,7 @@ import type { BlogPost } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Travel tips, destination guides and stories from the TourNature-Bio team.",
+  description: "Travel tips, destination guides and stories from the Survival Explore team.",
   alternates: { canonical: "/blog" },
 };
 

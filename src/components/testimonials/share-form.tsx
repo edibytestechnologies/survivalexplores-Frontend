@@ -54,7 +54,7 @@ export function ShareForm() {
         <h3 className="mt-4 font-serif text-2xl font-semibold text-navy">Thank you!</h3>
         <p className="mt-2 max-w-md text-muted">
           Your review has been submitted and will appear on our site once approved. We appreciate
-          you sharing your journey with TourNature-Bio.
+          you sharing your journey with Survival Explore.
         </p>
       </div>
     );

@@ -35,7 +35,7 @@ export async function StructuredData() {
         "@type": ["Organization", "TravelAgency"],
         "@id": `${SITE_URL}/#organization`,
         name: SITE_NAME,
-        alternateName: "TourNature Bio",
+        alternateName: "Survival Explores",
         url: SITE_URL,
         description: SITE_DESCRIPTION,
         logo,

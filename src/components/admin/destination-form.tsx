@@ -209,7 +209,7 @@ export function DestinationForm({
           <p className="mt-1 text-sm text-muted">How this trip appears on Google & social media. Leave blank to auto-use the title & short description.</p>
         </div>
         <Field label={`SEO title  (${(v.seo_title || "").length}/60 — best under 60 characters)`}>
-          <Input value={v.seo_title} onChange={(e) => set("seo_title", e.target.value)} maxLength={70} placeholder={`e.g. ${v.title || "Zanzibar"} Tour Package | TourNature-Bio`} />
+          <Input value={v.seo_title} onChange={(e) => set("seo_title", e.target.value)} maxLength={70} placeholder={`e.g. ${v.title || "Zanzibar"} Tour Package | Survival Explore`} />
         </Field>
         <Field label={`SEO meta description  (${(v.seo_description || "").length}/160 — best 120–160 characters)`}>
           <Textarea rows={3} value={v.seo_description} onChange={(e) => set("seo_description", e.target.value)} maxLength={200} placeholder="One or two sentences a searcher will see under the title in Google results." />
@@ -218,7 +218,7 @@ export function DestinationForm({
         <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-xs text-muted">Google preview</p>
           <p className="mt-1 truncate text-[15px] text-[#1a0dab]">{v.seo_title || `${v.title || "Trip"}, ${v.country || "Country"} Tour Package`}</p>
-          <p className="text-xs text-[#006621]">tournature-bio.com › trips › {(v.title || "trip").toLowerCase().replace(/\s+/g, "-")}</p>
+          <p className="text-xs text-[#006621]">survivalexplores.com › trips › {(v.title || "trip").toLowerCase().replace(/\s+/g, "-")}</p>
           <p className="mt-0.5 line-clamp-2 text-[13px] text-[#4d5156]">{v.seo_description || v.short_description || "Add a short description…"}</p>
         </div>
       </Card>

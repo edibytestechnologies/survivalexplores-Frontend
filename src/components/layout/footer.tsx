@@ -98,7 +98,7 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-white/10 py-6 text-center text-xs text-white/50">
-        © {new Date().getFullYear()} TourNature-Bio. All Rights Reserved.
+        © {new Date().getFullYear()} Survival Explore. All Rights Reserved.
       </div>
     </footer>
   );

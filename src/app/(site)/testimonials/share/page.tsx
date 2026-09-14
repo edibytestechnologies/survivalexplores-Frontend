@@ -6,7 +6,7 @@ import { ShareForm } from "@/components/testimonials/share-form";
 export const metadata: Metadata = {
   title: "Share Your Experience",
   description:
-    "Rate your trip, leave a review and share a photo of your journey with TourNature-Bio.",
+    "Rate your trip, leave a review and share a photo of your journey with Survival Explore.",
 };
 
 export default function ShareExperiencePage() {

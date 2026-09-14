@@ -8,7 +8,7 @@ import { getSiteSettings } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Get in touch with TourNature-Bio. We'd love to help plan your next journey.",
+  description: "Get in touch with Survival Explore. We'd love to help plan your next journey.",
   alternates: { canonical: "/contact" },
 };
 
@@ -57,7 +57,7 @@ export default async function ContactPage() {
         <div className="container-x mt-14">
           <div className="overflow-hidden rounded-2xl shadow-card">
             <iframe
-              title="TourNature-Bio office location"
+              title="Survival Explore office location"
               src={s.map_embed_url}
               className="h-[360px] w-full border-0"
               loading="lazy"
