@@ -23,6 +23,7 @@ import {
   ClipboardList,
   Receipt,
   Users2,
+  BarChart3,
 } from "lucide-react";
 import { getToken, clearTokens, API_URL } from "@/lib/admin-api";
 import { cn } from "@/lib/utils";
@@ -43,6 +44,7 @@ function useLogo() {
 
 const NAV = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Visitors", href: "/admin/visitors", icon: BarChart3 },
   { label: "Bookings", href: "/admin/bookings", icon: CalendarCheck },
   { label: "Registrations", href: "/admin/registrations", icon: ClipboardList },
   { label: "Trip Roster", href: "/admin/roster", icon: Users2 },
