@@ -85,7 +85,7 @@ export default function AdminRegistrationsPage() {
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Select value={slug} onChange={(e) => setSlug(e.target.value)} className="sm:max-w-xs">
-            <option value="">General (no specific destination)</option>
+            <option value="" disabled>Select a destination *</option>
             {destinations.map((d) => (
               <option key={d.id} value={d.slug}>{d.title}, {d.country}</option>
             ))}
@@ -98,6 +98,7 @@ export default function AdminRegistrationsPage() {
             {copied ? <><Check className="h-4 w-4" /> Copied</> : <><Copy className="h-4 w-4" /> Copy Link</>}
           </button>
         </div>
+        {!slug && <p className="mt-2 text-xs text-muted">A destination is required before you can copy the link.</p>}
       </Card>
 
       {isLoading ? (
